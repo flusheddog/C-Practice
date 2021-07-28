@@ -2,14 +2,13 @@
 #include <stdlib.h>
 
 void cat (char *a, char *b) {
-  int i,j;
-  i = j = 0;
-  while (*(a+i)!='\0') {
-    i++;
+  while (*a !='\0') {
+    a++;
   }
-  while ((*(a+i) = *(b+j)) != '\0') {
-    i++;
-    j++;
+  while ((*a = *b) != '\0') {
+    a++;
+    b++;
+  }
 }
 
 int main() {
