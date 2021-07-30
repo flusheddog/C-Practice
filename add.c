@@ -4,51 +4,44 @@
 #include <string.h>
 #include <stdbool.h>
 
-bool isChar(char c) {
-    if(c == '+'|| c == '-' || c == '/' || c == '*') {
+bool isChar(char *c) {
+    if(*c == '+'|| *c == '-' || *c == '/' || *c == '*') {
         return true;
     }
     return false;
 }
-int main() {
-    
 
-    int num[10000];
-    char ch;
+int main(int argc, char *argv[]) {
+    int num[argc];
     int count = 0;
-    scanf("%c",&ch);
-    while(true){
-        if(ch == '\n') {
-            break;
-        }
-        if(!isChar(ch) && ch != ' ') {
-            num[count] = ch - '0';
+    for(int i = 1; i < argc;i++) {
+        if(!isChar(argv[i])) {
+            num[count] = atoi(argv[i]);
             count++;
         }
-        if (isChar(ch)) {
+        if (isChar(argv[i])) {
             if(count < 2) {
                 printf("Invalid Equation.");
                 break;
             }
-            if(ch == '+') {
+            if(*argv[i] == '+') {
                 num[count-2] = num[count-2] + num[count-1];
                 count--;
             }
-            if(ch == '-') {
+            if(*argv[i] == '-') {
                 num[count-2] = num[count-2] - num[count-1];
                 count--;
             }
-            if(ch == '*') {
+            if(*argv[i] == '*') {
                 num[count-2] = num[count-2] * num[count-1];
                 count--;
             }
-            if(ch == '/') {
+            if(*(argv[i]) == '/') {
                 num[count-2] = num[count-2] / num[count-1];
                 count--;
             }
         }
-        scanf("%c",&ch);
     }
-    printf("%d",num[0]);
+    printf("%d\n",num[0]);
     return 0;
 }
