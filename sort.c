@@ -32,13 +32,9 @@ int readlines(char *lineptr[], int maxlines) {
         if (p == NULL) {
             return -1;
         }
-        // line[len-1] = '\0';
-	printf("line %d %p\n", nlines, p);
-
         strcpy(p,line);
         lineptr[nlines++] = p;
     }
-    printf("read end %d\n", nlines);
     return nlines;
 }
 void writelines(char *lineptr[],int nlines) {
