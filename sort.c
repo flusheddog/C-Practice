@@ -4,22 +4,8 @@
 #include <stdlib.h>
 
 #define MAXLEN 1000
-#define ALLOCSIZE 1000
 #define LINES 200
 
-static char allocbuf[ALLOCSIZE];
-static char *allocp = allocbuf;
-
-char *alloc(int n) {
-
-    if(allocbuf + ALLOCSIZE - allocp >= n)
-    {
-        allocp += n ;
-        return allocp - n;
-    }
-    else
-        return 0;
-}
 int getlines(char s[], int lim) {
     int c, i;
     i = 0;
@@ -68,9 +54,8 @@ void swap(char *px[],char *py[]) {
     *py = temp;
 }
 
-void sort(char* v[], int n, int (*comp)(), void (*exch)()) {
+void sort(char* v[], int n, int (*comp)(), void (*exch)(char **, char **)) {
     int gap, i, j;
-    char *temp;
     for(gap=n/2;gap>0;gap/=2) {
         for(i=gap;i<n;i++) {
             for(j=i-gap;j>=0;j-=gap) {
