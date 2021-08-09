@@ -3,8 +3,10 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#define MAXLEN 1000
-#define LINES 200
+typedef int LINE;
+LINE lines = 100;
+LINE maxl = 1000;
+$ha
 
 int getlines(char s[], int lim) {
     int c, i;
@@ -20,10 +22,10 @@ int getlines(char s[], int lim) {
 }
 int readlines(char *lineptr[], int maxlines) {
     int len, nlines; 
-    char *p,line[MAXLEN];
+    char *p,line[maxl];
  
     nlines=0;
-    while ((len = getlines(line,MAXLEN))>0) {
+    while ((len = getlines(line,maxl))>0) {
         if (nlines >= maxlines) {
             return -1;
         }
@@ -68,14 +70,14 @@ int fold(char *a, char *b) {
 }
 
 int main(int argc,char *argv[]) {
-    char *lineptr[LINES];
+    char *lineptr[lines];
     int nlines;
     int (*compf) (char*, char*) = &fold;
     void (*swapf) (char **,char **)  = &swap;
     if(argc>1&& argv[1][0] == '-' && argv[1][1] == 'f'){
         compf = &fold;
     }
-    if((nlines = readlines(lineptr,LINES)) >=0) {
+    if((nlines = readlines(lineptr,lines)) >=0) {
         sort(lineptr, nlines, compf, swapf);
         writelines(lineptr,nlines);
     } else{
