@@ -3,10 +3,10 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+typedef void (*EXCHTYPE)(char **, char **);
 typedef int LINE;
 LINE lines = 100;
 LINE maxl = 1000;
-$ha
 
 int getlines(char s[], int lim) {
     int c, i;
@@ -20,8 +20,9 @@ int getlines(char s[], int lim) {
     s[i] = '\0';
     return i;
 }
-int readlines(char *lineptr[], int maxlines) {
-    int len, nlines; 
+int readlines(char *lineptr[], LINE maxlines) {
+    int len;
+    LINE nlines; 
     char *p,line[maxl];
  
     nlines=0;
@@ -45,40 +46,15 @@ void writelines(char *lineptr[],int nlines) {
         printf("%s\n",lineptr[i]);
 }
 
-void swap(char *px[],char *py[]) {
-    char *temp;
-    temp = *px;
-    *px = *py;
-    *py = temp;
-}
-
-void sort(char* v[], int n, int (*comp)(), void (*exch)(char **, char **)) {
-    int gap, i, j;
-    for(gap=n/2;gap>0;gap/=2) {
-        for(i=gap;i<n;i++) {
-            for(j=i-gap;j>=0;j-=gap) {
-                if((*comp) (v[j],v[j+gap])<=0) {
-                    break;
-                }
-		(*exch)(&v[j],&v[j+gap]);
-            }
-        }
-    }
-}
-int fold(char *a, char *b) {
-    return tolower(*a) - tolower(*b);
+int fold(const void *a,const void *b) {
+    return tolower(*(char*)a) - tolower(*(char*)b);
 }
 
 int main(int argc,char *argv[]) {
     char *lineptr[lines];
     int nlines;
-    int (*compf) (char*, char*) = &fold;
-    void (*swapf) (char **,char **)  = &swap;
-    if(argc>1&& argv[1][0] == '-' && argv[1][1] == 'f'){
-        compf = &fold;
-    }
     if((nlines = readlines(lineptr,lines)) >=0) {
-        sort(lineptr, nlines, compf, swapf);
+        qsort(lineptr,nlines,sizeof(*lineptr),fold);
         writelines(lineptr,nlines);
     } else{
         printf("input too big to sort\n");
