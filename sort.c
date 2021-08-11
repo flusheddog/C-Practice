@@ -6,7 +6,6 @@
 typedef int LINE;
 LINE lines = 100;
 LINE maxl = 1000;
-$ha
 
 int getlines(char s[], int lim) {
     int c, i;
