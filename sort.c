@@ -41,13 +41,19 @@ int readlines(char *lineptr[], LINE maxlines) {
     return nlines;
 }
 void writelines(char *lineptr[],int nlines) {
-    int i;
-    for(i=0;i<nlines;i++)
+    for(int i=0;i<nlines;i++)
         printf("%s\n",lineptr[i]);
 }
-
+int strcicmp(char const *a, char const *b)
+{
+    for (;; a++, b++) {
+        int d = tolower((unsigned char)*a) - tolower((unsigned char)*b);
+        if (d != 0 || !*a)
+            return d;
+    }
+}
 int fold(const void *a,const void *b) {
-    return tolower(*(char*)a) - tolower(*(char*)b);
+    return strcicmp(*(char**)a, *(char**)b);
 }
 
 int main(int argc,char *argv[]) {
