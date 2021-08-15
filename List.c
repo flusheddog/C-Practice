@@ -1,47 +1,77 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct list {
+typedef struct listElem {
     int data;
-    struct list *next;
-} *LIST_PTR;
+    struct listElem *next;
+} ListElem;
+typedef ListElem *LIST_PTR;
 
-void append(LIST_PTR *head_ptr, int new_data) {
-    LIST_PTR new_element = (LIST_PTR) malloc(sizeof(struct list));
+typedef struct List {
+    struct listElem *head;
+    struct listElem *tail;
+} List;
+
+void init_list(List *list) {
+    list->head = NULL;
+    list->tail = NULL;
+}
+
+void pop_front(List *list) {
+    LIST_PTR temp = list->head;
+    list->head = temp->next;
+    free(temp);
+}
+
+int front(List *list) {
+    return list->head->data;
+}
+
+void push_front(List *list, int new_data) {
+    LIST_PTR new_element = (LIST_PTR) malloc(sizeof(*new_element));
+    new_element->data = new_data;
+    new_element->next = list->head;
+    list->head = new_element;
+}
+
+
+void push_back(List *list, int new_data) {
+    LIST_PTR new_element = (LIST_PTR) malloc(sizeof(*new_element));
     new_element->data = new_data;
     new_element->next = NULL;
-    if(*head_ptr == NULL) {
-        *head_ptr = new_element;
+    if(list->head == NULL) {
+        list->head = new_element;
+        list->tail = list->head;
         return;
     }
-    LIST_PTR tail = *head_ptr;
-    while(tail->next != NULL) {
-        tail = tail->next;
-    }
-    tail->next = new_element;
-    return;
+
+    list->tail->next = new_element;
+    list->tail = list->tail->next;
 }
 
-void printlist(LIST_PTR head) {
-    while(head != NULL) {
-        printf("%d ", head->data);
-        head = head->next;
+void print_list(List list) {
+    while(list.head != NULL) {
+        printf("%d ", list.head->data);
+        list.head = list.head->next;
     }
+    printf("\n");
 }
-
-
 
 int main(void) {
+    List list;
+    init_list(&list);
 
-    LIST_PTR head = NULL;
-    append(&head,1);
-    append(&head,2);
-    append(&head,1);
-    append(&head,2561);
-    append(&head,12342);
-    append(&head,23);
-    append(&head,5);
-    append(&head,2);
-    printlist(head);
+    push_back(&list,13);
+
+    push_back(&list,14);
+    push_back(&list,17);
+    push_back(&list,1312);
+    push_back(&list,1);
+    push_front(&list,45);
+    printf("%d\n",front(&list));
+    print_list(list);
+    pop_front(&list);
+    print_list(list);
+
     return 0;
 }
