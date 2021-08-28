@@ -23,6 +23,23 @@ void pop_front(List *list) {
     free(temp);
 }
 
+
+void pop_back(List* list) {
+	ListElem temp = list->head;
+	if (list->head->next == NULL) {
+		list->head = NULL;
+		list->tail = NULL;
+		return;
+	}
+	while (temp->next != list->tail) {
+		temp = temp->next;
+	}
+	list->tail = temp;
+	temp = temp->next;
+	free(temp);
+	list->tail->next = NULL;
+}
+
 int front(List *list) {
     return list->head->data;
 }
