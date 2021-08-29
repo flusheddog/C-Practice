@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-
 #pragma warning(disable : 4996)
 
 typedef struct listElem {
@@ -70,7 +69,9 @@ int check_balance(char str[]) {
 
 int main() {
 
-	int i = check_balance("dfafdf{f()(()fds)fsd(f");
+	char* input[100];
+	scanf("%99[^\n]", input);
+	int i = check_balance(input);
 	printf("%d", i);
 	return 0;
 }
