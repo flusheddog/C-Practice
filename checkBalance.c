@@ -68,7 +68,6 @@ int check_balance(char str[]) {
 }
 
 int main() {
-
 	char* input[100];
 	scanf("%99[^\n]", input);
 	int i = check_balance(input);
